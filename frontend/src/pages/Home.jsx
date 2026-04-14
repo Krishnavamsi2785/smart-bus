@@ -183,7 +183,7 @@ export default function Home() {
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
-      setError("Payment gateway is temporarily unavailable. 💳");
+      setError("Payment Error: " + (err.response?.data?.error || err.message));
       setLoading(false);
     }
   };
