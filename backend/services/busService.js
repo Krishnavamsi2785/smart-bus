@@ -26,7 +26,8 @@ export const fetchBusWithRouteAndStops = async (busCode) => {
     bus_code: bus.bus_code,
     bus_number: bus.bus_number,
     bus_type: bus.bus_type,
-    depot: bus.depot,
+    depot_id: bus.depot_id,
+    depot_name: bus.depot_name,
     status: bus.status,
     route_id: route.route_id,
     route_name: route.route_name,
@@ -74,7 +75,8 @@ export const createBus = async (busData) => {
     bus_code: busData.bus_code.toUpperCase(),
     bus_number: busData.bus_number,
     bus_type: busData.bus_type,
-    depot: busData.depot || 'Central Depot',
+    depot_id: busData.depot_id || 'DP01',
+    depot_name: busData.depot_name || 'Central Depot',
     status: 'ACTIVE',
     assigned_routes: busData.route_id ? [parseInt(busData.route_id)] : []
   });
@@ -84,4 +86,24 @@ export const createBus = async (busData) => {
 
 export const getAllBuses = async () => {
   return await Bus.find().sort({ bus_id: 1 }).lean();
+};
+
+export const updateBus = async (busCode, updateData) => {
+  // Map correct depot structures
+  const fields = { ...updateData };
+  if (fields.route_id) {
+    fields.assigned_routes = [parseInt(fields.route_id)];
+  }
+  
+  const updatedBus = await Bus.findOneAndUpdate(
+    { bus_code: busCode.toUpperCase() }, 
+    fields, 
+    { new: true }
+  ).lean();
+  return updatedBus;
+};
+
+export const deleteBus = async (busCode) => {
+  const result = await Bus.findOneAndDelete({ bus_code: busCode.toUpperCase() });
+  return result;
 };

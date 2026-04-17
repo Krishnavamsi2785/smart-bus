@@ -61,3 +61,13 @@ export const getAdminStats = async (req, res, next) => {
     next(err);
   }
 };
+
+export const fetchRevenueAnalytics = async (req, res, next) => {
+  try {
+    const { date, depot_id } = req.query;
+    const analytics = await ticketService.getRevenueAnalytics(date, depot_id);
+    res.json({ data: analytics });
+  } catch (err) {
+    next(err);
+  }
+};

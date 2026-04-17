@@ -121,3 +121,59 @@ export const calculateAdminStats = async () => {
   const revenue = result.length ? result[0].revenue : 0;
   return { totalTickets, revenue };
 };
+
+export const getRevenueAnalytics = async (dateStr, depotId) => {
+  const matchRules = {};
+  
+  if (dateStr) {
+    const startDate = new Date(dateStr);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(dateStr);
+    endDate.setHours(23, 59, 59, 999);
+    matchRules.issue_time = { $gte: startDate, $lte: endDate };
+  }
+
+  const pipeline = [
+    { $match: matchRules },
+    {
+      $lookup: {
+        from: "buses",
+        localField: "bus_id",
+        foreignField: "bus_id",
+        as: "busInfo"
+      }
+    },
+    { $unwind: "$busInfo" }
+  ];
+
+  if (depotId) {
+    pipeline.push({ $match: { "busInfo.depot_id": depotId } });
+  }
+
+  pipeline.push({
+    $group: {
+      _id: {
+        depot_id: "$busInfo.depot_id",
+        depot_name: "$busInfo.depot_name",
+        bus_code: "$busInfo.bus_code",
+        bus_id: "$bus_id"
+      },
+      total_revenue: { $sum: "$fare" },
+      ticket_count: { $sum: 1 }
+    }
+  });
+
+  pipeline.push({
+    $sort: { "_id.depot_name": 1, "total_revenue": -1 }
+  });
+
+  const aggregates = await Ticket.aggregate(pipeline);
+  return aggregates.map(item => ({
+    depot_id: item._id.depot_id,
+    depot_name: item._id.depot_name,
+    bus_code: item._id.bus_code,
+    bus_id: item._id.bus_id,
+    total_revenue: item.total_revenue,
+    ticket_count: item.ticket_count
+  }));
+};

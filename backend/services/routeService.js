@@ -19,3 +19,17 @@ export const createRoute = async (routeData) => {
   await route.save();
   return route.toObject();
 };
+
+export const updateRoute = async (routeId, updateData) => {
+  const updatedRoute = await Route.findOneAndUpdate(
+    { route_id: parseInt(routeId) },
+    updateData,
+    { new: true }
+  ).lean();
+  return updatedRoute;
+};
+
+export const deleteRoute = async (routeId) => {
+  const result = await Route.findOneAndDelete({ route_id: parseInt(routeId) });
+  return result;
+};

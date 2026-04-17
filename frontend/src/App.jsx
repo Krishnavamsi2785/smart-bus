@@ -5,6 +5,8 @@ import MyTickets from './pages/MyTickets';
 import Login from './pages/Login';
 import Conductor from './pages/Conductor';
 import Admin from './pages/Admin';
+import Passes from './pages/Passes';
+import DepotPortal from './pages/DepotPortal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -26,8 +28,10 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               <Route path="/tickets" element={<ProtectedRoute><MyTickets /></ProtectedRoute>} />
+              <Route path="/passes" element={<ProtectedRoute><Passes /></ProtectedRoute>} />
               <Route path="/conductor" element={<ProtectedRoute><Conductor /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+              <Route path="/depot-login" element={<DepotPortal />} />
             </Routes>
           </main>
         </div>

@@ -23,9 +23,9 @@ export default function Login() {
     try {
       const endpoint = isRegister ? 'register' : 'login';
       const payload = isRegister ? { name, phone, password } : { phone, password };
-      
+
       const res = await axios.post(`${API_BASE_URL}/auth/${endpoint}`, payload);
-      
+
       if (!isRegister) {
         // Login mode
         login(res.data.data, res.data.token);
@@ -62,11 +62,11 @@ export default function Login() {
           {isRegister && (
             <div className="flex flex-col">
               <label className="text-xs font-black uppercase tracking-widest mb-1 text-gray-400">Full Name</label>
-              <input 
+              <input
                 required
-                type="text" 
-                className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all" 
-                placeholder="John Doe" 
+                type="text"
+                className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all"
+                placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -74,30 +74,30 @@ export default function Login() {
           )}
 
           <div className="flex flex-col">
-            <label className="text-xs font-black uppercase tracking-widest mb-1 text-gray-400">Phone Number</label>
-            <input 
+            <label className="text-xs font-black uppercase tracking-widest mb-1 text-gray-400">Username/Phone Number</label>
+            <input
               required
-              type="text" 
-              className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all font-mono" 
-              placeholder="000 000 0000" 
+              type="text"
+              className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all font-mono"
+              placeholder="000 000 0000"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          
+
           <div className="flex flex-col">
             <label className="text-xs font-black uppercase tracking-widest mb-1 text-gray-400">Password</label>
-            <input 
+            <input
               required
-              type="password" 
-              className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all" 
-              placeholder="••••••••" 
+              type="password"
+              className="p-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-blue-500 transition-all"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          
-          <button 
+
+          <button
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-black py-4 rounded-xl transition transform active:scale-95 shadow-lg flex items-center justify-center gap-2"
           >
@@ -108,7 +108,7 @@ export default function Login() {
         <div className="mt-8 text-center">
           <p className="text-gray-500 text-sm font-medium">
             {isRegister ? 'Already have an account?' : 'Don\'t have an account?'}
-            <button 
+            <button
               onClick={() => setIsRegister(!isRegister)}
               className="ml-2 text-blue-600 font-black hover:underline focus:outline-none"
             >
@@ -116,9 +116,9 @@ export default function Login() {
             </button>
           </p>
           {!isRegister && (
-             <p className="mt-6 text-[10px] font-bold text-gray-400 bg-gray-50 border border-gray-200 p-2 rounded-lg inline-block text-center uppercase tracking-widest">
-               Admin Shortcut <br/><span className="text-blue-900 mt-1 block">Phone: admin — Pass: password</span>
-             </p>
+            <p className="mt-6 text-[10px] font-bold text-gray-400 bg-gray-50 border border-gray-200 p-2 rounded-lg inline-block text-center uppercase tracking-widest">
+              Apsrtc<br /><span className="text-blue-900 mt-1 block">Welcome to Apsrtc Online Service</span>
+            </p>
           )}
         </div>
       </div>

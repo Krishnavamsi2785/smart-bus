@@ -5,3 +5,10 @@ build/
 .env.local
 .DS_Store
 .vscode/
+*.log
+npm-debug.log*
+*.zip
+apsrtc_buses_dataset.csv
+gen_csv.js
+init_backend.js
+SmartBus_Deployment.zip

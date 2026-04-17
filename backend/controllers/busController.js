@@ -45,3 +45,25 @@ export const listBuses = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateBusData = async (req, res, next) => {
+  try {
+    const { code } = req.params;
+    const bus = await busService.updateBus(code, req.body);
+    if (!bus) return res.status(404).json({ error: 'Bus not found' });
+    res.json({ data: bus });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const removeBus = async (req, res, next) => {
+  try {
+    const { code } = req.params;
+    const result = await busService.deleteBus(code);
+    if (!result) return res.status(404).json({ error: 'Bus not found' });
+    res.json({ message: 'Bus successfully deleted' });
+  } catch (err) {
+    next(err);
+  }
+};
